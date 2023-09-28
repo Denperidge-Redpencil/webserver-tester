@@ -1,7 +1,15 @@
+
 # Package imports
 import docker
 
-from .testers.wrk2 import wrk2
+from .args import use_all_testers
+from .testers import all_testers
+
+if use_all_testers:
+    testers = all_testers
+else:
+    testers = []
+
 
 if __name__ == "__main__":
     client = docker.from_env()
@@ -9,5 +17,5 @@ if __name__ == "__main__":
     urls = ["http://localhost:80"]
     
     for url in urls:
-        wrk2.run(url)
-        #slowhttptest(client, url)
+        for tester in testers:
+            tester.run(url)

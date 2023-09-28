@@ -42,7 +42,7 @@ docker compose pull  # Ensures that you are running the latest releases
 docker compose up -d  # Note: on older installations, you may have to replace docker compose with docker-compose
 
 # Run the tests
-python3 -m app
+python3 -m app --all
 
 # Done!
 ```
