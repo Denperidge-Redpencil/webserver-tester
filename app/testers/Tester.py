@@ -17,7 +17,6 @@ class Tester():
     def run(url: str):
         pass
 
-
 class BinaryTester(Tester):
     """A Tester run using an executable file"""
 
@@ -46,3 +45,6 @@ class BinaryTester(Tester):
             args = self.default_args
 
         system(f"{self.binary} {args} {url}")
+
+    def __repr__(self) -> str:
+        return f"BinaryTester: {self.binary}"
