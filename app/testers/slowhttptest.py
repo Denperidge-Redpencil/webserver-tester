@@ -1,6 +1,3 @@
-from docker import DockerClient
+from ..Tester import DockerTester
 
-def slowhttptest(client: DockerClient, url: str, command=""):
-    meow = client.containers.run("shekyan/slowhttptest", f"{url}")
-    print("@@")
-    print(meow)
+slowhttptest = DockerTester("slowhttptest", "shekyan/slowhttptest", "-u ")

@@ -1,6 +1,3 @@
-# Package imports
-import docker
-
 # Local imports
 from .args import use_all_testers, show_all_testers, enabled_tester_names
 from .testers import testers_dict, testers_list
@@ -9,7 +6,6 @@ from .Server import Server
 from .runner import run_tests
 
 if __name__ == "__main__":
-    client = docker.from_env()
     servers = [
         Server("Apache", "http://localhost:80"),
         Server("Nginx", "http://localhost:8081"),
