@@ -2,31 +2,26 @@
 import docker
 
 # Local imports
-from .args import use_all_testers, show_all_testers, enabled_testers
-from .testers import testers_dict, all_testers
+from .args import use_all_testers, show_all_testers, enabled_tester_names
+from .testers import testers_dict, testers_list
+from .Server import Server
 
-# Funcs
-def run_tests(urls, testers):
-   for url in urls:
-        for tester in testers:
-            if type(tester) == str:
-                testers_dict[tester].run(url)
-            else:
-                tester.run(url)
-
+from .runner import run_tests
 
 if __name__ == "__main__":
     client = docker.from_env()
-    #urls = ["localhost:8080", "localhost:8081", "localhost:8082"]
-    urls = ["http://localhost:80"]
-
+    servers = [
+        Server("Apache", "http://localhost:80")
+    ]
  
-    if use_all_testers:
-        run_tests(urls, all_testers)
-    elif show_all_testers:
-        for tester in all_testers:
+    if show_all_testers:
+        for tester in testers_list:
             print(tester)
+
+    elif use_all_testers:
+        run_tests(servers, testers_list)
+        
     else:
-        print("Enabled testers: " + str(enabled_testers))
-        run_tests(urls, enabled_testers)
+        print("Enabled testers: " + str(enabled_tester_names))
+        run_tests(servers, enabled_tester_names)
 

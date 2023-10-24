@@ -1,6 +1,7 @@
-from .Tester import BinaryTester
+from ..Tester import BinaryTester
 
 wrk2 = BinaryTester(
+    name="wrk2",
     binary="wrk2/wrk",
     build_commands=[
         "git clone https://github.com/giltene/wrk2.git",

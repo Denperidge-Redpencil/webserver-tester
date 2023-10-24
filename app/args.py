@@ -31,8 +31,8 @@ use_all_testers: bool = args.all
 show_all_testers: bool = args.show_testers
 """Whether to show all available testers"""
 
-enabled_testers: list[str] = []
+enabled_tester_names: list[str] = []
 
 for tester_name in testers_dict:
     if getattr(args, tester_name):
-        enabled_testers.append(tester_name)
+        enabled_tester_names.append(tester_name)

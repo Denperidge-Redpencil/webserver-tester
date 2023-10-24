@@ -1,7 +1,7 @@
-from os import system, makedirs
+from os import  makedirs
 from os.path import exists
 from pathlib import Path
-from subprocess import run
+from subprocess import run, PIPE
 
 testers_dir = Path(__file__).parent
 binary_dir = testers_dir.parent.joinpath("bin")
@@ -11,8 +11,8 @@ makedirs(str(binary_dir), exist_ok=True)
 
 class Tester():
     """The base Tester class"""
-    def __init__(self) -> None:
-        pass
+    def __init__(self, name:str) -> None:
+        self.name = name
 
     def run(url: str):
         pass
@@ -20,13 +20,13 @@ class Tester():
 class BinaryTester(Tester):
     """A Tester run using an executable file"""
 
-    def __init__(self, binary:str, build_commands:list, default_args: str=None) -> None:
+    def __init__(self, name:str, binary:str, build_commands:list, default_args: str=None) -> None:
         """
         params:
         - binary: path towards the binary, relative to app/bin/
         
         """
-        super().__init__()
+        super().__init__(name)
 
         self.binary = str(binary_dir.joinpath(binary))
         self.default_args = default_args
@@ -44,7 +44,7 @@ class BinaryTester(Tester):
         if args is None and self.default_args is not None:
             args = self.default_args
 
-        system(f"{self.binary} {args} {url}")
+        return run([self.binary, *args.split(" "), url], stdout=PIPE, encoding="UTF-8").stdout
 
     def __repr__(self) -> str:
         return f"BinaryTester: {self.binary}"
