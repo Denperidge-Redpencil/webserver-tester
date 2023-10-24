@@ -41,8 +41,15 @@ cd webserver-tester
 docker compose pull  # Ensures that you are running the latest releases
 docker compose up -d  # Note: on older installations, you may have to replace docker compose with docker-compose
 
+# Create & activate virtualenv
+python -m venv venv
+source ./venv/bin/activate
+
+# Install requirements
+pip install -r requirements.txt
+
 # Run the tests
-python3 -m app --all
+python -m app --all
 
 # Done!
 ```

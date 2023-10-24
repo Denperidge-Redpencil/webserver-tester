@@ -2,14 +2,17 @@
 import docker
 
 # Local imports
-from .args import use_all_testers, show_all_testers
+from .args import use_all_testers, show_all_testers, enabled_testers
 from .testers import testers_dict, all_testers
 
 # Funcs
 def run_tests(urls, testers):
    for url in urls:
         for tester in testers:
-            tester.run(url)
+            if type(tester) == str:
+                testers_dict[tester].run(url)
+            else:
+                tester.run(url)
 
 
 if __name__ == "__main__":
@@ -23,7 +26,7 @@ if __name__ == "__main__":
     elif show_all_testers:
         for tester in all_testers:
             print(tester)
-
     else:
-        pass
+        print("Enabled testers: " + str(enabled_testers))
+        run_tests(urls, enabled_testers)
 
