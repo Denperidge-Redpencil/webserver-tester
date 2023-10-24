@@ -2,37 +2,34 @@ from .Server import Server
 from .Tester import Tester
 
 from .testers import testers_dict
-        
 
+from os.path import join, abspath, dirname 
 
 def run_tests(servers: [Server], testers: [Tester|str]):
-    output = "# Output\n"
+    output = "<h1>Output</h1>"
     # Create table
-    """
-    |     | SERVERNAME | SERVERNAME | SERVERNAME |
-    |     | ---------- | ---------- | ---------- |
-    """
-    output += "|    |"
-    for server in servers:
-        output += f" {server.name} |"
-    
-    output += "\n|    |"
-    output += " ------- |" * len(servers)
 
+    output += "<table>"
+    output += "<tr><td>Tester</td>"
+    for server in servers:
+        output += f"<th>{server.name}</th>"
 
     for tester in testers:
         if type(tester) == str:
             tester = testers_dict[tester]
 
-        output += f"\n| {tester.name} |"
+        output += f"<tr><th>{tester.name}</th>"
 
         for server in servers:
             result = tester.run(server.url)            
-            output += f" {result} |"
+            output += f"<td>{result}</td>"
+
+    output += "</table>"
 
 
-            
+    with open(join(dirname(__file__), "template/index.html"), "r", encoding="UTF-8") as template_file:
+        template = template_file.read()
 
-    with open("output.md", "w", encoding="UTF-8") as output_file:
-        output_file.write(output)
+    with open("output.html", "w", encoding="UTF-8") as output_file:
+        output_file.write(template.replace("<REPLACE/>", output.replace("\\n", "<br>")))
 
