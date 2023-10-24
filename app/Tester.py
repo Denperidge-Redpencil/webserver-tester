@@ -2,6 +2,7 @@ from os import  makedirs
 from os.path import exists, join
 from pathlib import Path
 from subprocess import run, PIPE
+from json import loads
 
 from re import compile
 
@@ -57,8 +58,7 @@ class BinaryTester(Tester):
 
         if command is None and self.default_command is not None:
             command = self.default_command
-
-        return run([self.binary_path, *command.replace("<URL>", url).split(" "), url], stdout=PIPE, encoding="UTF-8").stdout
+        return run([self.binary_path, loads(command.replace("<URL>", url))], stdout=PIPE, encoding="UTF-8", shell=True).stdout
 
     def __repr__(self) -> str:
         return f"BinaryTester: {self.binary_path}"
