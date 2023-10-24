@@ -75,4 +75,4 @@ class DockerTester(Tester):
             args = self.default_args
         
         client = docker_from_env()
-        return escape_ansi(client.containers.run(image=self.docker_image, command=f"{args} {url}").decode("utf-8"))
+        return escape_ansi(client.containers.run(image=self.docker_image, network="host", command=f"{args} {url}").decode("utf-8"))
