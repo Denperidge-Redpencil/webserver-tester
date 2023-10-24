@@ -5,17 +5,17 @@ services:
     image: httpd:alpine
     network_mode: "host"
     userns_mode: "host"
-  # webserver_nginx:
-    # image: nginx:alpine
-    # ports:
-      # - "8081:80"
-    # network_mode: "host"
+
+  webserver_nginx:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
       
-  # webserver_caddy:
-    # image: caddy:alpine
-    # ports:
-      # - "8082:80"
-    # network_mode: "host"
+  webserver_caddy:
+    image: caddy:alpine
+    ports:
+      - "8082:80"
+    #network_mode: "host"
   
   
   

@@ -10,7 +10,7 @@ def run_tests(servers: [Server], testers: [Tester|str]):
     # Create table
 
     output += "<table>"
-    output += "<tr><td>Tester</td>"
+    output += "<tr><th></th>"
     for server in servers:
         output += f"<th>{server.name}</th>"
 
@@ -31,5 +31,5 @@ def run_tests(servers: [Server], testers: [Tester|str]):
         template = template_file.read()
 
     with open("output.html", "w", encoding="UTF-8") as output_file:
-        output_file.write(template.replace("<REPLACE/>", output.replace("\\n", "<br>")))
+        output_file.write(template.replace("<REPLACE/>", output.replace("\n", "<br>")))
 

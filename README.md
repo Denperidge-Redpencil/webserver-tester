@@ -68,8 +68,12 @@ This is done deliberately for a few reasons.
 1. Minimise setup time
 2. Allows for an equal playing field (due to consistent usage of alpine images)
 
+### Equal testing environment
+The following 
+- 
+
 ### Testers
-Every tester tool is intigrated using the Tester class (see [app/testers/Tester.py](app/testers/Tester.py))
+Every tester tool is intigrated using the Tester class (see [app/Tester.py](app/Tester.py))
 
 This allows...
 - Drag and drop replacement
@@ -77,7 +81,7 @@ This allows...
 - Consistency between different tools
 
 ### Limitations
-- This test is incredibly barebones. It will only test how well each webserver can serve the same boilerplate page, which means performance can still vary depending on the size of the project.
+- In its current design, this test is incredibly barebones. It will only test how well each webserver can serve the same boilerplate page, which means performance can still vary depending on the size of the project.
 
 
 

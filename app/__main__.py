@@ -11,7 +11,9 @@ from .runner import run_tests
 if __name__ == "__main__":
     client = docker.from_env()
     servers = [
-        Server("Apache", "http://localhost:80")
+        Server("Apache", "http://localhost:80"),
+        Server("Nginx", "http://localhost:8081"),
+        Server("Caddy", "http://localhost:8082"),
     ]
  
     if show_all_testers:
