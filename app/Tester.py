@@ -42,10 +42,8 @@ class BinaryTester(Tester):
         super().__init__(name)
 
         self.binary_path = join(binary_dir, binary)
+        self.build_command = build_command
         self.default_command = default_command
-
-        if not exists(self.binary_path):
-            run(build_command, cwd=str(binary_dir), shell=True)
     
     def run(self, url: str, command: str=None):
         """
@@ -54,6 +52,9 @@ class BinaryTester(Tester):
         If no args are passed but default_args is defined, those args will be used
         
         """
+        if not exists(self.binary_path):
+            run(self.build_command, cwd=str(binary_dir), shell=True)
+
         if command is None and self.default_command is not None:
             command = self.default_command
 
