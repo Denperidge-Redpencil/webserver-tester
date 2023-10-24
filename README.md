@@ -4,8 +4,8 @@ Test the latest versions of your favourite webservers with any and all testing t
 
 This project:
 - Pulls the latest webserver image (for more information, see [#why docker below](#why-docker))
-- Pulls and/or builds multiple testing tools
-- Runs every tool and normalises their output
+- Automatically pulls and/or builds multiple testing tools
+- Runs every tool and collects their output
 
 
 | Webserver name | Status |
@@ -19,6 +19,11 @@ This project:
 | ------------ | ------ |
 | wrk2         |   ✅   |
 | slowhttptest |   ❔   |
+| vegeta       |   ❔ <sup>1</sup> |
+
+Notes:
+1. Requires go & easyjson to be installed
+
 
 
 ✅: Integrated
