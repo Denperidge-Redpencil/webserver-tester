@@ -18,7 +18,7 @@ parser.add_argument("--show-testers", action="store_true", help="When passed, li
 tester_args = parser.add_argument_group("Testers")
 for tester_name in testers_dict:
     tester = testers_dict[tester_name]
-    tester_args.add_argument("--" + tester_name, action="store_true", help=f"When passed, run use `{tester_name} {tester.default_args}`")
+    tester_args.add_argument("--" + tester_name, action="store_true", help=f"When passed, run use `{tester_name} {tester.default_command}`")
 
 
 # Thanks to https://stackoverflow.com/a/47440202

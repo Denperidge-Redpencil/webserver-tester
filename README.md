@@ -83,35 +83,21 @@ python -m app --all
     ```
 
 ### Implementing a new tester
-1. Create a python file
-    ```python
-    # app/testers/example.py
+In [testers.conf](testers.conf), add the following
+- `[name]`: replacing name with the name of the tester
+- `default_command`: the default command that should be run when nothing else is specified. Make sure to add `<URL>` where the URL will have to go
 
-    # ...
-    ```
-2. Import the class
-    ```python
-    # app/testers/example.py
-    from ..Tester import DockerTester
+Afterwards, depending on how the tool is installed/built, add the following
 
-    example = DockerTester(
-        name="example", 
-        docker_image="your/image", 
-        default_args="--run --url ")
-    ```
-3. Import the variable & defined it in the dict in [app/testers/__init__.py](app/testers/__init__.py)
-    ```python
-    # app/testers/__init__.py
-    from .example import example
+#### The tool uses a binary
+In [testers.conf](testers.conf), add the following:
+- `binary`: path relative to ./bin/ after the build is complete
+- `build_command`: which command to run to build the binary. Multiple commands can be inserted using `echo "this"; echo "notation"`
 
-    testers_dict = {
-        # ...
-        "example": example,
-        # ...
-    }
-    # ...
-    ```
-4. That's it! The args will automatically be implemented
+#### The tool uses a Docker image
+In [testers.conf](testers.conf), add the following:
+- `docker_image`: the Docker image name. If you would normally run `docker run example/example`, the image name would be `example/example`
+
 
 ## Reference
 ### Equal playing field

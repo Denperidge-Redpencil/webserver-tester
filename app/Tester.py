@@ -1,5 +1,5 @@
 from os import  makedirs
-from os.path import exists
+from os.path import exists, join
 from pathlib import Path
 from subprocess import run, PIPE
 
@@ -33,7 +33,7 @@ class Tester():
 class BinaryTester(Tester):
     """A Tester run using an executable file"""
 
-    def __init__(self, name:str, binary:str, build_commands:list, default_args: str=None) -> None:
+    def __init__(self, name:str, binary:str|Path, build_command:str, default_command: str=None) -> None:
         """
         params:
         - binary: path towards the binary, relative to app/bin/
@@ -41,38 +41,38 @@ class BinaryTester(Tester):
         """
         super().__init__(name)
 
-        self.binary = str(binary_dir.joinpath(binary))
-        self.default_args = default_args
+        self.binary_path = join(binary_dir, binary)
+        self.default_command = default_command
 
-        if not exists(self.binary):
-            run("; ".join(build_commands), cwd=str(binary_dir), shell=True)
+        if not exists(self.binary_path):
+            run(build_command, cwd=str(binary_dir), shell=True)
     
-    def run(self, url: str, args: str=None):
+    def run(self, url: str, command: str=None):
         """
         Runs the binary against the provided url in the following format: `BINARY ARGS URL`
 
         If no args are passed but default_args is defined, those args will be used
         
         """
-        if args is None and self.default_args is not None:
-            args = self.default_args
+        if command is None and self.default_command is not None:
+            command = self.default_command
 
-        return run([self.binary, *args.split(" "), url], stdout=PIPE, encoding="UTF-8").stdout
+        return run([self.binary_path, *command.replace("<URL>", url).split(" "), url], stdout=PIPE, encoding="UTF-8").stdout
 
     def __repr__(self) -> str:
-        return f"BinaryTester: {self.binary}"
+        return f"BinaryTester: {self.binary_path}"
 
 
 class DockerTester(Tester):
     """A Testser run using Docker"""
-    def __init__(self, name:str, docker_image:str, default_args:str=None):
+    def __init__(self, name:str, docker_image:str, default_command:str=None):
         super().__init__(name)
         self.docker_image = docker_image
-        self.default_args = default_args
+        self.default_command = default_command
     
-    def run(self, url: str, args: str=None):
-        if args is None and self.default_args is not None:
-            args = self.default_args
+    def run(self, url: str, command: str=None):
+        if command is None and self.default_command is not None:
+            command = self.default_command
         
         client = docker_from_env()
-        return escape_ansi(client.containers.run(image=self.docker_image, network="host", command=f"{args} {url}").decode("utf-8"))
+        return escape_ansi(client.containers.run(image=self.docker_image, network="host", command=command.replace("<URL>", url)).decode("utf-8"))
